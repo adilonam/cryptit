@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
@@ -27,11 +27,11 @@ const ModifyResources = () => {
     fetchInitialContent();
   }, [session]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { value: SetStateAction<undefined>; }; }) => {
     setContent(e.target.value);
   };
 
-  const updateContent = async (e) => {
+  const updateContent = async (e: any) => {
     toast.promise(
       handleSubmit(e),
        {
@@ -44,7 +44,7 @@ const ModifyResources = () => {
 
   
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (session) {
       try {
@@ -80,7 +80,7 @@ const ModifyResources = () => {
             name="content"
             placeholder="Enter content here"
             value={content}
-            onChange={handleChange}
+            // onChange={handleChange}
             className="min-h-[60vh] w-full resize-y rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           ></textarea>
         </div>
