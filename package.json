@@ -16,14 +16,14 @@
     "flatpickr": "^4.6.13",
     "jsvectormap": "^1.5.3",
     "jwt-decode": "^4.0.0",
-    "next": "14.1.0",
+    "next": "15.1.7",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.2.0",
-    "@next/third-parties": "^14.2.13"
+    "@next/third-parties": "^15.1.7"
   },
   "devDependencies": {
     "@types/node": "^20",

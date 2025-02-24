@@ -26,9 +26,13 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
   }, []);
 
   return (
-    <html lang="en">
-      <GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID as string} />
+    <html lang="en" suppressHydrationWarning>
+  
+  <GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID as string} />
+   
+     
       <body suppressHydrationWarning={true}>
+      
         <NextAuthProvider session={session}>
         <Toaster />
           <div className="dark:bg-boxdark-2 dark:text-bodydark">
