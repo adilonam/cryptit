@@ -8,6 +8,7 @@ import Loader from "@/components/common/Loader";
 import { Session } from "next-auth";
 import NextAuthProvider from "@/components/providers/NextAuthProvider";
 import { Toaster } from 'react-hot-toast';
+import { GoogleTagManager } from '@next/third-parties/google'
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
 
   return (
     <html lang="en">
+      <GoogleTagManager gtmId={process.env.GOOGLE_TAG_MANAGER_ID as string} />
       <body suppressHydrationWarning={true}>
         <NextAuthProvider session={session}>
         <Toaster />
