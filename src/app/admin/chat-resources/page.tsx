@@ -6,7 +6,6 @@ const ChatResources = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Chatbot resources" />
-      <MongoResources />
     </DefaultLayout>
   );
 };
