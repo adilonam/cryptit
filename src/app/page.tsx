@@ -1,9 +1,8 @@
 "use client"
-import ECommerce from "@/components/Dashboard/E-commerce";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
-import { Metadata } from "next";
+import Encryption from "@/components/Dashboard/Encryption";
 
  
 export default function Home() {
@@ -17,7 +16,7 @@ export default function Home() {
  
     <DefaultLayout  >
 
-        {loading ? <Loader /> : <ECommerce />}
+        {loading ? <Loader /> : <Encryption />}
 
         </DefaultLayout>
      
