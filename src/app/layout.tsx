@@ -12,10 +12,9 @@ import { GoogleTagManager } from '@next/third-parties/google'
 
 type RootLayoutProps = {
   children: React.ReactNode;
-  session: Session | null;
 };
 
-const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
+const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
 
