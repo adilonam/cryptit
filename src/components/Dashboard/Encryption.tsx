@@ -7,7 +7,7 @@ const Encryption: React.FC = () => {
       <div className="max-w-4xl w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Cryptit.pro</h1>
         <p className="text-gray-600 dark:text-gray-400 text-center mb-8">
-          If you don't trust WhatsApp or mail servers, Cryptit can encrypt your files locally without any bit sent to the server, using your own key.
+          If you don&apos;t trust WhatsApp or mail servers, Cryptit can encrypt your files locally without any bit sent to the server, using your own key.
         </p>
         <div className="flex flex-col md:flex-row items-center justify-around">
           <div className="w-full md:w-1/3 p-4">
