@@ -33,12 +33,12 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children, session }) => {
      
       <body suppressHydrationWarning={true}>
       
-        <NextAuthProvider session={session}>
+        {/* <NextAuthProvider session={session}> */}
         <Toaster />
           <div className="dark:bg-boxdark-2 dark:text-bodydark">
             {loading ? <Loader /> : children}
           </div>
-        </NextAuthProvider>
+        {/* </NextAuthProvider> */}
       </body>
     </html>
   );
