@@ -4,6 +4,7 @@ import { useState } from "react";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import * as crypto from "crypto";
+import CryptoJS from "crypto-js";
 
 const FormLayout = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -16,37 +17,80 @@ const FormLayout = () => {
       setFile(e.target.files[0]);
     }
   };
-
   const handleDesEncrypt = () => {
-    if (file && desKey) {
+    return new Promise<void>((resolve, reject) => {
+      if (!file || !desKey) {
+        alert("Please select a file and provide a valid key!");
+        reject(new Error("File or key is missing"));
+        return;
+      }
+
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const fileContent = Buffer.from(e.target?.result as ArrayBuffer);
-        const key = Uint8Array.from(Buffer.from(desKey.padEnd(8, ' '))); // Ensure key is 8 bytes
-        const cipher = crypto.createCipheriv("des-ecb", key, null);
-        const fileContentArray = new Uint8Array(fileContent);
-        const encrypted = Buffer.concat([new Uint8Array(cipher.update(fileContentArray)), new Uint8Array(cipher.final())]);
-        const encryptedBlob = new Blob([encrypted], { type: "application/octet-stream" });
+
+      reader.onload = (event) => {
+        if (!event.target?.result) {
+          reject(new Error("Failed to read file"));
+          return;
+        }
+
+        // Convert file data to WordArray
+        const fileData = CryptoJS.lib.WordArray.create(
+          new Uint8Array(event.target.result as ArrayBuffer)
+        );
+
+        // Encrypt using DES
+        const encrypted = CryptoJS.DES.encrypt(fileData, CryptoJS.enc.Utf8.parse(desKey), {
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7,
+        });
+
+        // Convert to Blob
+        const encryptedBlob = new Blob([encrypted.toString()], { type: "text/plain" });
+
+        // Set the encrypted file in state
         setEncryptedFile(encryptedBlob);
+        resolve();
       };
+
+      reader.onerror = (error) => reject(error);
+
       reader.readAsArrayBuffer(file);
-    }
+    });
   };
 
   const handleDesDecrypt = () => {
-    if (file && desKey) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const encryptedContent = Buffer.from(e.target?.result as ArrayBuffer);
-        const key = Uint8Array.from(Buffer.from(desKey.padEnd(8, ' '))); // Ensure key is 8 bytes
-        const decipher = crypto.createDecipheriv("des-ecb", key, null);
-        const encryptedContentArray = new Uint8Array(encryptedContent);
-        const decrypted = Buffer.concat([new Uint8Array(decipher.update(encryptedContentArray)), new Uint8Array(decipher.final())]);
-        const decryptedBlob = new Blob([decrypted], { type: "application/octet-stream" });
-        setDecryptedFile(decryptedBlob);
-      };
-      reader.readAsArrayBuffer(file);
-    }
+
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      if (!event.target?.result) {
+        console.error("Failed to read encrypted file");
+        return;
+      }
+
+      const encryptedText = event.target.result as string;
+
+      // Decrypt using DES
+      const decrypted = CryptoJS.DES.decrypt(encryptedText, CryptoJS.enc.Utf8.parse(desKey), {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+      });
+
+      // Convert decrypted WordArray to Uint8Array
+      const decryptedArray = new Uint8Array(decrypted.sigBytes);
+      for (let i = 0; i < decrypted.sigBytes; i++) {
+        decryptedArray[i] = decrypted.words[i >>> 2] >>> (24 - (i % 4) * 8);
+      }
+
+      // Convert back to Blob
+      const decryptedBlob = new Blob([decryptedArray], { type: "application/octet-stream" });
+
+      // Set decrypted file in state
+      setDecryptedFile(decryptedBlob);
+    };
+
+    reader.readAsText(file as Blob);
   };
 
   const downloadFile = (blob: Blob, filename: string) => {
