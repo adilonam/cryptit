@@ -6,7 +6,7 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import * as crypto from "crypto";
 import CryptoJS from "crypto-js";
 
-const FormLayout = () => {
+const Page = () => {
   const [file, setFile] = useState<File | null>(null);
   const [desKey, setDesKey] = useState("");
   const [encryptedFile, setEncryptedFile] = useState<Blob | null>(null);
@@ -224,4 +224,4 @@ const FormLayout = () => {
   );
 };
 
-export default FormLayout;
+export default Page;
