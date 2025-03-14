@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://www.cryptit.pro
-
-# Sitemaps
-Sitemap: https://www.cryptit.pro/sitemap.xml
